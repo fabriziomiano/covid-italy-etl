@@ -36,7 +36,17 @@
 				"inputs": [
 					{
 						"referenceName": "Github",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"DPCDirectory": {
+								"value": "@pipeline().parameters.DPCDirectory",
+								"type": "Expression"
+							},
+							"DPCFileName": {
+								"value": "@pipeline().parameters.DPCFileName",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [

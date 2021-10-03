@@ -36,7 +36,152 @@
 						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "data",
+									"type": "DateTime"
+								},
+								"sink": {
+									"name": "data",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "stato",
+									"type": "String"
+								},
+								"sink": {
+									"name": "stato",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "codice_regione",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "codice_regione",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "denominazione_regione",
+									"type": "String"
+								},
+								"sink": {
+									"name": "denominazione_regione",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "codice_provincia",
+									"type": "Int16"
+								},
+								"sink": {
+									"name": "codice_provincia",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "denominazione_provincia",
+									"type": "String"
+								},
+								"sink": {
+									"name": "denominazione_provincia",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "sigla_provincia",
+									"type": "String"
+								},
+								"sink": {
+									"name": "sigla_provincia",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "lat",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "lat",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "long",
+									"type": "Double"
+								},
+								"sink": {
+									"name": "long",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "totale_casi",
+									"type": "Int64"
+								},
+								"sink": {
+									"name": "totale_casi",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note",
+									"type": "String"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "codice_nuts_1",
+									"type": "String"
+								},
+								"sink": {
+									"name": "codice_nuts_1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "codice_nuts_2",
+									"type": "String"
+								},
+								"sink": {
+									"name": "codice_nuts_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "codice_nuts_3",
+									"type": "String"
+								},
+								"sink": {
+									"name": "codice_nuts_3",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{

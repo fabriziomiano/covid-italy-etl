@@ -1,0 +1,9 @@
+{
+	"name": "covid-dpc-df",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "9a09919d-e1ce-4552-9a5f-e36031644524",
+		"tenantId": "f8ead074-84fb-49a0-85ae-eecee35f3b4a"
+	}
+}

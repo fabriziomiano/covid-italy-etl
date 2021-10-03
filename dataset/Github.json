@@ -18,7 +18,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "dati-regioni/dpc-covid19-ita-regioni.csv"
+				"relativeUrl": {
+					"value": "@concat(dataset().DPCDirectory, '/', dataset().DPCFileName)",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": ",",
 			"rowDelimiter": "\n",

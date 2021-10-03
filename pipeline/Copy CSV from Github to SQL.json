@@ -39,13 +39,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceDataset_lk6",
+						"referenceName": "Github",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DestinationDataset_lk6",
+						"referenceName": "SQLDB",
 						"type": "DatasetReference"
 					}
 				]

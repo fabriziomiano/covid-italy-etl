@@ -5,6 +5,14 @@
 			"referenceName": "GithubHTTPS",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"DPCDirectory": {
+				"type": "string"
+			},
+			"DPCFileName": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {

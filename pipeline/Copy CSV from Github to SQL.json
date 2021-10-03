@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_lk6",
+				"name": "Github to SQL",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {

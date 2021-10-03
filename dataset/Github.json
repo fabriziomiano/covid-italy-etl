@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "dati-province/dpc-covid19-ita-province.csv"
+				"relativeUrl": "dati-regioni/dpc-covid19-ita-regioni.csv"
 			},
 			"columnDelimiter": ",",
 			"rowDelimiter": "\n",

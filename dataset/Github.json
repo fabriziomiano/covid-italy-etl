@@ -9,7 +9,8 @@
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "HttpServerLocation"
+				"type": "HttpServerLocation",
+				"relativeUrl": "dati-province/dpc-covid19-ita-province.csv"
 			},
 			"columnDelimiter": ",",
 			"rowDelimiter": "\n",

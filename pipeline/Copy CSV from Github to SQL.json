@@ -69,16 +69,20 @@
 		],
 		"parameters": {
 			"DPCDirectory": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "dati-regione"
 			},
 			"DPCFileName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "dpc-covid19-ita-regioni.csv"
 			},
 			"SchemaName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "dbo"
 			},
 			"TableName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "dpc-covid19-ita-regioni"
 			}
 		},
 		"annotations": []

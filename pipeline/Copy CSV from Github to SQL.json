@@ -85,6 +85,9 @@
 				"defaultValue": "dpc-covid19-ita-regioni"
 			}
 		},
+		"folder": {
+			"name": "General Purpose"
+		},
 		"annotations": []
 	}
 }

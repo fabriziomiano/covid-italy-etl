@@ -1,5 +1,5 @@
 {
-	"name": "Github",
+	"name": "GithubDPC",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "GithubHTTPS",

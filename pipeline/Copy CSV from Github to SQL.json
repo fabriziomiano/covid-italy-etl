@@ -39,7 +39,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Github",
+						"referenceName": "GithubDPC",
 						"type": "DatasetReference",
 						"parameters": {
 							"DPCDirectory": {

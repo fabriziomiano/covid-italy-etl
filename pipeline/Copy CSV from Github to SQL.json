@@ -86,7 +86,7 @@
 			},
 			"TableName": {
 				"type": "string",
-				"defaultValue": "dpc-covid19-ita-regioni"
+				"defaultValue": "regioni"
 			}
 		},
 		"folder": {

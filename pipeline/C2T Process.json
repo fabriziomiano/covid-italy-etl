@@ -46,7 +46,7 @@
 					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"DPCDirectory": "dati-province\n",
+						"DPCDirectory": "dati-province",
 						"DPCFileName": "dpc-covid19-ita-province.csv",
 						"SchemaName": "dbo",
 						"TableName": "dpc-covid19-ita-province"

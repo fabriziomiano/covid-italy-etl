@@ -29,7 +29,7 @@
 					"sink": {
 						"type": "AzureSqlSink",
 						"preCopyScript": {
-							"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ', \npipeline().parameters.TableName, \n') = 1 \nTRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', pipeline().parameters.TableName\n)}",
+							"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '', \npipeline().parameters.TableName, ''',\n') = 1 \nTRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', pipeline().parameters.TableName\n)}",
 							"type": "Expression"
 						},
 						"tableOption": "autoCreate",

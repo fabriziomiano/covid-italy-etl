@@ -28,10 +28,6 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": {
-							"value": "@{concat('TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', pipeline().parameters.TableName\n)}",
-							"type": "Expression"
-						},
 						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
 					},

@@ -29,7 +29,7 @@
 					"sink": {
 						"type": "AzureSqlSink",
 						"preCopyScript": {
-							"value": "@{concat('TRUNCATE TABLE ', pipeline().parameters.SchemaName,'.', pipeline().parameters.TableName)}",
+							"value": "@{concat('TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', '[', pipeline().parameters.TableName, ']')}",
 							"type": "Expression"
 						},
 						"tableOption": "autoCreate",

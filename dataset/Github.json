@@ -25,10 +25,9 @@
 			},
 			"columnDelimiter": ",",
 			"rowDelimiter": "\n",
-			"encodingName": "ISO-8859-1",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
-			"quoteChar": "\""
+			"quoteChar": ""
 		},
 		"schema": []
 	}

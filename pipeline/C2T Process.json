@@ -45,8 +45,8 @@
 					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"DPCDirectory": "dati-province",
-						"DPCFileName": "dpc-covid19-ita-regioni.csv\n",
+						"DPCDirectory": "dati-province\n",
+						"DPCFileName": "dpc-covid19-ita-province.csv",
 						"TableName": "dpc-covid19-ita-province"
 					}
 				}

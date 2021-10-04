@@ -16,6 +16,7 @@
 					"parameters": {
 						"DPCDirectory": "dati-andamento-nazionale",
 						"DPCFileName": "dpc-covid19-ita-andamento-nazionale.csv",
+						"SchemaName": "dbo",
 						"TableName": "dpc-covid19-ita-andamento-nazionale"
 					}
 				}
@@ -47,6 +48,7 @@
 					"parameters": {
 						"DPCDirectory": "dati-province\n",
 						"DPCFileName": "dpc-covid19-ita-province.csv",
+						"SchemaName": "dbo",
 						"TableName": "dpc-covid19-ita-province"
 					}
 				}

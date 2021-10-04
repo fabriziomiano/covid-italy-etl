@@ -70,7 +70,7 @@
 		"parameters": {
 			"DPCDirectory": {
 				"type": "string",
-				"defaultValue": "dati-regione"
+				"defaultValue": "dati-regioni"
 			},
 			"DPCFileName": {
 				"type": "string",

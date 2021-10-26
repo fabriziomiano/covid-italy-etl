@@ -57,6 +57,45 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/GithubDPC')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "GithubHTTPS",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"DPCDirectory": {
+						"type": "string"
+					},
+					"DPCFileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": {
+							"value": "@concat(dataset().DPCDirectory, '/', dataset().DPCFileName)",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"rowDelimiter": "\n",
+					"escapeChar": "\"",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/GithubHTTPS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SQLDB')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -102,7 +141,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/GithubDPC')]",
+			"name": "[concat(parameters('factoryName'), '/GithubOD')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -111,10 +150,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
-					"DPCDirectory": {
-						"type": "string"
-					},
-					"DPCFileName": {
+					"FileName": {
 						"type": "string"
 					}
 				},
@@ -124,7 +160,7 @@
 					"location": {
 						"type": "HttpServerLocation",
 						"relativeUrl": {
-							"value": "@concat(dataset().DPCDirectory, '/', dataset().DPCFileName)",
+							"value": "@dataset().FileName",
 							"type": "Expression"
 						}
 					},
@@ -173,7 +209,7 @@
 							"sink": {
 								"type": "AzureSqlSink",
 								"preCopyScript": {
-									"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ''', pipeline().parameters.TableName, ''')', \n' TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', pipeline().parameters.TableName\n)}",
+									"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ''', '[', replace(pipeline().parameters.DPCFileName, '.csv', ''), ']', ''')', \n' TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', '[', replace(pipeline().parameters.DPCFileName, '.csv', ''), ']'\n)}",
 									"type": "Expression"
 								},
 								"tableOption": "autoCreate",
@@ -207,7 +243,7 @@
 										"type": "Expression"
 									},
 									"TableName": {
-										"value": "@pipeline().parameters.TableName",
+										"value": "@replace(pipeline().parameters.DPCFileName, '.csv', '')",
 										"type": "Expression"
 									}
 								}
@@ -231,10 +267,6 @@
 					"SchemaName": {
 						"type": "string",
 						"defaultValue": "dbo"
-					},
-					"TableName": {
-						"type": "string",
-						"defaultValue": "regioni"
 					}
 				},
 				"folder": {
@@ -248,7 +280,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/C2T Process')]",
+			"name": "[concat(parameters('factoryName'), '/GitHub 2 SQL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -267,8 +299,7 @@
 							"parameters": {
 								"DPCDirectory": "dati-andamento-nazionale",
 								"DPCFileName": "dpc-covid19-ita-andamento-nazionale.csv",
-								"SchemaName": "dbo",
-								"TableName": "NAZIONALE"
+								"SchemaName": "dbo"
 							}
 						}
 					},
@@ -316,37 +347,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/Copy CSV from Github to SQL')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/C2T Launcher')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "C2T Data Loading",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "C2T Process",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/C2T Process')]"
 			]
 		}
 	]

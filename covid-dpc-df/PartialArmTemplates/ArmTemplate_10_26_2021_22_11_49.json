@@ -6,14 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "covid-dpc-df"
-		},
-		"AzureSqlDatabase_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase'"
-		},
-		"GithubHTTPS_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/"
 		}
 	},
 	"variables": {
@@ -80,10 +72,6 @@
 						}
 					}
 				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -165,10 +153,6 @@
 						]
 					}
 				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
 				"parameters": {
 					"DPCDirectory": {
 						"type": "string",
@@ -187,129 +171,6 @@
 					"name": "General Purpose"
 				},
 				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/GithubDPC')]",
-				"[concat(variables('factoryId'), '/datasets/SQLDB')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/GithubDPC')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "GithubHTTPS",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"DPCDirectory": {
-						"type": "string"
-					},
-					"DPCFileName": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "HttpServerLocation",
-						"relativeUrl": {
-							"value": "@concat(dataset().DPCDirectory, '/', dataset().DPCFileName)",
-							"type": "Expression"
-						}
-					},
-					"columnDelimiter": ",",
-					"rowDelimiter": "\n",
-					"escapeChar": "\"",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/GithubHTTPS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SQLDB')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase",
-					"type": "LinkedServiceReference",
-					"parameters": {
-						"SchemaName": {
-							"value": "@dataset().SchemaName",
-							"type": "Expression"
-						},
-						"TableName": {
-							"value": "@dataset().TableName",
-							"type": "Expression"
-						}
-					}
-				},
-				"parameters": {
-					"SchemaName": {
-						"type": "string"
-					},
-					"TableName": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": {
-						"value": "@dataset().SchemaName",
-						"type": "Expression"
-					},
-					"table": {
-						"value": "@dataset().TableName",
-						"type": "Expression"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"parameters": {
-					"SchemaName": {
-						"type": "string"
-					},
-					"TableName": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSqlDatabase_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/GithubHTTPS')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "HttpServer",
-				"typeProperties": {
-					"url": "[parameters('GithubHTTPS_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
 			},
 			"dependsOn": []
 		},
@@ -345,9 +206,7 @@
 				},
 				"schema": []
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/GithubHTTPS')]"
-			]
+			"dependsOn": []
 		}
 	]
 }

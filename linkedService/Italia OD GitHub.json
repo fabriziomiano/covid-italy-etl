@@ -1,0 +1,12 @@
+{
+	"name": "Italia OD GitHub",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}

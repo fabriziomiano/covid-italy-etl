@@ -32,7 +32,9 @@
 					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"TableName": "REGIONI"
+						"DPCDirectory": "dati-regioni",
+						"DPCFileName": "dpc-covid19-ita-regioni.csv",
+						"SchemaName": "dbo"
 					}
 				}
 			},
@@ -50,8 +52,7 @@
 					"parameters": {
 						"DPCDirectory": "dati-province",
 						"DPCFileName": "dpc-covid19-ita-province.csv",
-						"SchemaName": "dbo",
-						"TableName": "PROVINCE"
+						"SchemaName": "dbo"
 					}
 				}
 			}

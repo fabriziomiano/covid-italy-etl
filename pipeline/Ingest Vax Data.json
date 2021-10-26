@@ -18,6 +18,23 @@
 						"SchemaName": "dbo"
 					}
 				}
+			},
+			{
+				"name": "Ingest Vax Administrations Data",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "OD 2 SQL",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"ODFileName": "somministrazioni-vaccini-latest.csv.csv",
+						"SchemaName": "dbo"
+					}
+				}
 			}
 		],
 		"annotations": []

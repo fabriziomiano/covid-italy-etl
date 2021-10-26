@@ -13,7 +13,7 @@
 		},
 		"GithubHTTPS_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/"
+			"defaultValue": "https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/"
 		}
 	},
 	"variables": {
@@ -96,6 +96,42 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/GithubOD')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "GithubHTTPS",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FileName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": {
+							"value": "@dataset().FileName",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"rowDelimiter": "\n",
+					"escapeChar": "\"",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/GithubHTTPS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SQLDB')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -141,49 +177,108 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/GithubOD')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "GithubHTTPS",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"FileName": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "HttpServerLocation",
-						"relativeUrl": {
-							"value": "@dataset().FileName",
-							"type": "Expression"
-						}
-					},
-					"columnDelimiter": ",",
-					"rowDelimiter": "\n",
-					"escapeChar": "\"",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/GithubHTTPS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Copy CSV from Github to SQL')]",
+			"name": "[concat(parameters('factoryName'), '/OD 2 SQL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Github to SQL",
+						"name": "Italia-OD Github to SQL",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings",
+									"skipLineCount": 0
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"preCopyScript": {
+									"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ''', '[', replace(pipeline().parameters.ODFileName, '.csv', ''), ']', ''')', \n' TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', '[', replace(pipeline().parameters.ODFileName, '.csv', ''), ']'\n)}",
+									"type": "Expression"
+								},
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "GithubOD",
+								"type": "DatasetReference",
+								"parameters": {
+									"FileName": {
+										"value": "@pipeline().parameters.ODFileName",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SQLDB",
+								"type": "DatasetReference",
+								"parameters": {
+									"SchemaName": {
+										"value": "@pipeline().parameters.SchemaName",
+										"type": "Expression"
+									},
+									"TableName": {
+										"value": "@replace(pipeline().parameters.ODFileName, '.csv', '')",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"ODFileName": {
+						"type": "string",
+						"defaultValue": "platea.csv"
+					},
+					"SchemaName": {
+						"type": "string",
+						"defaultValue": "dbo"
+					}
+				},
+				"folder": {
+					"name": "General Purpose"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/GithubOD')]",
+				"[concat(variables('factoryId'), '/datasets/SQLDB')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PCM-DPC 2 SQL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "PCM-DPC Github to SQL",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -280,7 +375,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/GitHub 2 SQL')]",
+			"name": "[concat(parameters('factoryName'), '/Ingest Pandemic Data')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -292,7 +387,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "Copy CSV from Github to SQL",
+								"referenceName": "PCM-DPC 2 SQL",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -310,7 +405,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "Copy CSV from Github to SQL",
+								"referenceName": "PCM-DPC 2 SQL",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -326,7 +421,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "Copy CSV from Github to SQL",
+								"referenceName": "PCM-DPC 2 SQL",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -346,7 +441,90 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Copy CSV from Github to SQL')]"
+				"[concat(variables('factoryId'), '/pipelines/PCM-DPC 2 SQL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Ingest Vax Data')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest Population Data",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "OD 2 SQL",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"ODFileName": "platea.csv",
+								"SchemaName": "dbo"
+							}
+						}
+					},
+					{
+						"name": "Ingest Vax Administrations Data",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "OD 2 SQL",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"ODFileName": "somministrazioni-vaccini-latest.csv",
+								"SchemaName": "dbo"
+							}
+						}
+					},
+					{
+						"name": "Update administrations data",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [
+							{
+								"activity": "Ingest Vax Administrations Data",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[UpdateAdminsData]"
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureSqlDatabase",
+							"type": "LinkedServiceReference",
+							"parameters": {
+								"SchemaName": "dbo",
+								"TableName": "somministrazioni-vaccini-latest"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/OD 2 SQL')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase')]"
 			]
 		}
 	]

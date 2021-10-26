@@ -228,7 +228,7 @@
 							"sink": {
 								"type": "AzureSqlSink",
 								"preCopyScript": {
-									"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ''', '[', replace(pipeline().parameters.ODFileName, '.csv', ''), ']', ''')', \n' TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', '[', replace(pipeline().parameters.ODFileName, '.csv', ''), ']'\n)}",
+									"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ''', replace(pipeline().parameters.ODFileName, '.csv', ''), ''')', \n' TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', '[', replace(pipeline().parameters.ODFileName, '.csv', ''), ']'\n)}",
 									"type": "Expression"
 								},
 								"tableOption": "autoCreate",
@@ -323,7 +323,7 @@
 							"sink": {
 								"type": "AzureSqlSink",
 								"preCopyScript": {
-									"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ''', '[', replace(pipeline().parameters.DPCFileName, '.csv', ''), ']', ''')', \n' TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', '[', replace(pipeline().parameters.DPCFileName, '.csv', ''), ']'\n)}",
+									"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ''', replace(pipeline().parameters.DPCFileName, '.csv', ''), ''')', \n' TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', '[', replace(pipeline().parameters.DPCFileName, '.csv', ''), ']'\n)}",
 									"type": "Expression"
 								},
 								"tableOption": "autoCreate",
@@ -372,11 +372,11 @@
 				"parameters": {
 					"DPCDirectory": {
 						"type": "string",
-						"defaultValue": "dati-andamento-nazionale"
+						"defaultValue": "dati-regioni"
 					},
 					"DPCFileName": {
 						"type": "string",
-						"defaultValue": "dpc-covid19-ita-andamento-nazionale.csv"
+						"defaultValue": "dpc-covid19-ita-regioni.csv"
 					},
 					"SchemaName": {
 						"type": "string",
@@ -399,24 +399,6 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
-					{
-						"name": "Ingest National COVID Data",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "PCM-DPC 2 SQL",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {
-								"DPCDirectory": "dati-andamento-nazionale",
-								"DPCFileName": "dpc-covid19-ita-andamento-nazionale.csv",
-								"SchemaName": "dbo"
-							}
-						}
-					},
 					{
 						"name": "Ingest Regional COVID Data",
 						"type": "ExecutePipeline",

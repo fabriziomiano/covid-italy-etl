@@ -31,7 +31,7 @@
 					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"ODFileName": "somministrazioni-vaccini-latest.csv.csv",
+						"ODFileName": "somministrazioni-vaccini-latest.csv",
 						"SchemaName": "dbo"
 					}
 				}
@@ -60,7 +60,11 @@
 				},
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabase",
-					"type": "LinkedServiceReference"
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"SchemaName": "dbo",
+						"TableName": "somministrazioni-vaccini-latest"
+					}
 				}
 			}
 		],

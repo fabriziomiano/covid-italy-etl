@@ -11,7 +11,11 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase'"
 		},
-		"GithubHTTPS_properties_typeProperties_url": {
+		"DPC GitHub_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/"
+		},
+		"Italia OD GitHub_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/"
 		},
@@ -45,8 +49,11 @@
 					"AzureSqlDatabase_connectionString": {
 						"value": "[parameters('AzureSqlDatabase_connectionString')]"
 					},
-					"GithubHTTPS_properties_typeProperties_url": {
-						"value": "[parameters('GithubHTTPS_properties_typeProperties_url')]"
+					"DPC GitHub_properties_typeProperties_url": {
+						"value": "[parameters('DPC GitHub_properties_typeProperties_url')]"
+					},
+					"Italia OD GitHub_properties_typeProperties_url": {
+						"value": "[parameters('Italia OD GitHub_properties_typeProperties_url')]"
 					}
 				}
 			},

@@ -8,7 +8,10 @@
 		"AzureSqlDatabase_connectionString": {
 			"value": ""
 		},
-		"GithubHTTPS_properties_typeProperties_url": {
+		"DPC GitHub_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/"
+		},
+		"Italia OD GitHub_properties_typeProperties_url": {
 			"value": "https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/"
 		},
 		"containerUri": {

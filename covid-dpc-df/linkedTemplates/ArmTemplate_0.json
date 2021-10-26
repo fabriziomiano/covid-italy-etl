@@ -11,7 +11,11 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase'"
 		},
-		"GithubHTTPS_properties_typeProperties_url": {
+		"DPC GitHub_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/"
+		},
+		"Italia OD GitHub_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/"
 		}
@@ -42,14 +46,29 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/GithubHTTPS')]",
+			"name": "[concat(parameters('factoryName'), '/DPC GitHub')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "HttpServer",
 				"typeProperties": {
-					"url": "[parameters('GithubHTTPS_properties_typeProperties_url')]",
+					"url": "[parameters('DPC GitHub_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Italia OD GitHub')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('Italia OD GitHub_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
 				}
@@ -62,7 +81,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "GithubHTTPS",
+					"referenceName": "DPC GitHub",
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
@@ -92,7 +111,7 @@
 				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/GithubHTTPS')]"
+				"[concat(variables('factoryId'), '/linkedServices/DPC GitHub')]"
 			]
 		},
 		{
@@ -101,7 +120,7 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "GithubHTTPS",
+					"referenceName": "Italia OD GitHub",
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
@@ -128,7 +147,7 @@
 				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/GithubHTTPS')]"
+				"[concat(variables('factoryId'), '/linkedServices/Italia OD GitHub')]"
 			]
 		},
 		{
@@ -262,7 +281,7 @@
 					}
 				},
 				"folder": {
-					"name": "General Purpose"
+					"name": "Copy Activities"
 				},
 				"annotations": []
 			},
@@ -353,11 +372,11 @@
 				"parameters": {
 					"DPCDirectory": {
 						"type": "string",
-						"defaultValue": "dati-regioni"
+						"defaultValue": "dati-andamento-nazionale"
 					},
 					"DPCFileName": {
 						"type": "string",
-						"defaultValue": "dpc-covid19-ita-regioni.csv"
+						"defaultValue": "dpc-covid19-ita-andamento-nazionale.csv"
 					},
 					"SchemaName": {
 						"type": "string",
@@ -365,7 +384,7 @@
 					}
 				},
 				"folder": {
-					"name": "General Purpose"
+					"name": "Copy Activities"
 				},
 				"annotations": []
 			},
@@ -410,7 +429,9 @@
 							},
 							"waitOnCompletion": true,
 							"parameters": {
-								"TableName": "REGIONI"
+								"DPCDirectory": "dati-regioni",
+								"DPCFileName": "dpc-covid19-ita-regioni.csv",
+								"SchemaName": "dbo"
 							}
 						}
 					},
@@ -428,8 +449,7 @@
 							"parameters": {
 								"DPCDirectory": "dati-province",
 								"DPCFileName": "dpc-covid19-ita-province.csv",
-								"SchemaName": "dbo",
-								"TableName": "PROVINCE"
+								"SchemaName": "dbo"
 							}
 						}
 					}
@@ -483,13 +503,80 @@
 								"SchemaName": "dbo"
 							}
 						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/OD 2 SQL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Data Ingestion')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest Pandemic Data",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Ingest Pandemic Data",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
 					},
 					{
-						"name": "Update administrations data",
+						"name": "Ingest Vax Data",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Ingest Vax Data",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Wait ingestion",
+						"type": "Wait",
+						"dependsOn": [
+							{
+								"activity": "Ingest Pandemic Data",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Ingest Vax Data",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 1
+						}
+					},
+					{
+						"name": "Transform administrations data",
 						"type": "SqlServerStoredProcedure",
 						"dependsOn": [
 							{
-								"activity": "Ingest Vax Administrations Data",
+								"activity": "Wait ingestion",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -523,8 +610,40 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/OD 2 SQL')]",
+				"[concat(variables('factoryId'), '/pipelines/Ingest Pandemic Data')]",
+				"[concat(variables('factoryId'), '/pipelines/Ingest Vax Data')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DBUpdate')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipeline": {
+					"pipelineReference": {
+						"referenceName": "Data Ingestion",
+						"type": "PipelineReference"
+					},
+					"parameters": {}
+				},
+				"type": "TumblingWindowTrigger",
+				"typeProperties": {
+					"frequency": "Hour",
+					"interval": 24,
+					"startTime": "2021-10-27T18:45:00Z",
+					"delay": "00:00:00",
+					"maxConcurrency": 50,
+					"retryPolicy": {
+						"intervalInSeconds": 30
+					},
+					"dependsOn": []
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Data Ingestion')]"
 			]
 		}
 	]

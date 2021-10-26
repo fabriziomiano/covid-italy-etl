@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Github to SQL",
+				"name": "Italia-OD Github to SQL",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -39,18 +39,8 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "GithubDPC",
-						"type": "DatasetReference",
-						"parameters": {
-							"DPCDirectory": {
-								"value": "@pipeline().parameters.DPCDirectory",
-								"type": "Expression"
-							},
-							"DPCFileName": {
-								"value": "@pipeline().parameters.DPCFileName",
-								"type": "Expression"
-							}
-						}
+						"referenceName": "GithubOD",
+						"type": "DatasetReference"
 					}
 				],
 				"outputs": [

@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Github to SQL",
+				"name": "PCM-DPC Github to SQL",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {

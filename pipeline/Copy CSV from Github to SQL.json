@@ -29,7 +29,7 @@
 					"sink": {
 						"type": "AzureSqlSink",
 						"preCopyScript": {
-							"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ''', pipeline().parameters.TableName, ''')', \n' TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', pipeline().parameters.TableName\n)}",
+							"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ''', replace(pipeline().parameters.DPCFileName, '.csv', ''), ''')', \n' TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', replace(pipeline().parameters.DPCFileName, '.csv', '')\n)}",
 							"type": "Expression"
 						},
 						"tableOption": "autoCreate",
@@ -63,7 +63,7 @@
 								"type": "Expression"
 							},
 							"TableName": {
-								"value": "@pipeline().parameters.TableName",
+								"value": "@replace(pipeline().parameters.DPCFileName, '.csv', '')",
 								"type": "Expression"
 							}
 						}
@@ -83,10 +83,6 @@
 			"SchemaName": {
 				"type": "string",
 				"defaultValue": "dbo"
-			},
-			"TableName": {
-				"type": "string",
-				"defaultValue": "regioni"
 			}
 		},
 		"folder": {

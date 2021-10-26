@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Ingest Administrations Data_copy1",
+				"name": "Ingest Population Data",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],

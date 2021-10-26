@@ -29,7 +29,7 @@
 					"sink": {
 						"type": "AzureSqlSink",
 						"preCopyScript": {
-							"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ''', '[', replace(pipeline().parameters.DPCFileName, '.csv', ''), ']', ''')', \n' TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', '[', replace(pipeline().parameters.DPCFileName, '.csv', ''), ']'\n)}",
+							"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ''', replace(pipeline().parameters.DPCFileName, '.csv', ''), ''')', \n' TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', '[', replace(pipeline().parameters.DPCFileName, '.csv', ''), ']'\n)}",
 							"type": "Expression"
 						},
 						"tableOption": "autoCreate",
@@ -74,11 +74,11 @@
 		"parameters": {
 			"DPCDirectory": {
 				"type": "string",
-				"defaultValue": "dati-andamento-nazionale"
+				"defaultValue": "dati-regioni"
 			},
 			"DPCFileName": {
 				"type": "string",
-				"defaultValue": "dpc-covid19-ita-andamento-nazionale.csv"
+				"defaultValue": "dpc-covid19-ita-regioni.csv"
 			},
 			"SchemaName": {
 				"type": "string",

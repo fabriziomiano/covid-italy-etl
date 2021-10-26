@@ -2,7 +2,7 @@
 	"name": "GithubOD",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "GithubHTTPS",
+			"referenceName": "Italia OD GitHub",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {

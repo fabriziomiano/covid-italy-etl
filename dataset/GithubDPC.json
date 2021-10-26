@@ -2,7 +2,7 @@
 	"name": "GithubDPC",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "GithubHTTPS",
+			"referenceName": "DPC GitHub",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {

@@ -1,9 +1,9 @@
 {
-	"name": "Ingest Pandemic Data",
+	"name": "Ingest Vax Data",
 	"properties": {
 		"activities": [
 			{
-				"name": "Ingest National COVID Data",
+				"name": "Ingest Administrations Data",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
@@ -21,7 +21,7 @@
 				}
 			},
 			{
-				"name": "Ingest Regional COVID Data",
+				"name": "Ingest Population Data",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
@@ -30,29 +30,7 @@
 						"referenceName": "PCM-DPC 2 SQL",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true,
-					"parameters": {
-						"TableName": "REGIONI"
-					}
-				}
-			},
-			{
-				"name": "Ingest Provincial COVID Data",
-				"type": "ExecutePipeline",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "PCM-DPC 2 SQL",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true,
-					"parameters": {
-						"DPCDirectory": "dati-province",
-						"DPCFileName": "dpc-covid19-ita-province.csv",
-						"SchemaName": "dbo",
-						"TableName": "PROVINCE"
-					}
+					"waitOnCompletion": true
 				}
 			}
 		],

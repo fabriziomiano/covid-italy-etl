@@ -3,24 +3,6 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Ingest National COVID Data",
-				"type": "ExecutePipeline",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "PCM-DPC 2 SQL",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true,
-					"parameters": {
-						"DPCDirectory": "dati-andamento-nazionale",
-						"DPCFileName": "dpc-covid19-ita-andamento-nazionale.csv",
-						"SchemaName": "dbo"
-					}
-				}
-			},
-			{
 				"name": "Ingest Regional COVID Data",
 				"type": "ExecutePipeline",
 				"dependsOn": [],

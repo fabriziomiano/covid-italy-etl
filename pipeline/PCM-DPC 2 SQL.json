@@ -74,11 +74,11 @@
 		"parameters": {
 			"DPCDirectory": {
 				"type": "string",
-				"defaultValue": "dati-andamento-nazionale"
+				"defaultValue": "dati-regioni"
 			},
 			"DPCFileName": {
 				"type": "string",
-				"defaultValue": "dpc-covid19-ita-andamento-nazionale.csv"
+				"defaultValue": "dpc-covid19-ita-regioni.csv"
 			},
 			"SchemaName": {
 				"type": "string",

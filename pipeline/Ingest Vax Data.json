@@ -9,28 +9,14 @@
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "PCM-DPC 2 SQL",
+						"referenceName": "OD 2 SQL",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true,
 					"parameters": {
-						"DPCDirectory": "dati-andamento-nazionale",
-						"DPCFileName": "dpc-covid19-ita-andamento-nazionale.csv",
+						"ODFileName": "somministrazioni-vaccini-latest.csv",
 						"SchemaName": "dbo"
 					}
-				}
-			},
-			{
-				"name": "Ingest Population Data",
-				"type": "ExecutePipeline",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "PCM-DPC 2 SQL",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
 				}
 			}
 		],

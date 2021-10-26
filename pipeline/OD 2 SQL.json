@@ -29,7 +29,7 @@
 					"sink": {
 						"type": "AzureSqlSink",
 						"preCopyScript": {
-							"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ''', '[', replace(pipeline().parameters.DPCFileName, '.csv', ''), ']', ''')', \n' TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', '[', replace(pipeline().parameters.DPCFileName, '.csv', ''), ']'\n)}",
+							"value": "@{concat(\n'IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ''', '[', replace(pipeline().parameters.ODFileName, '.csv', ''), ']', ''')', \n' TRUNCATE TABLE ', pipeline().parameters.SchemaName, '.', '[', replace(pipeline().parameters.ODFileName, '.csv', ''), ']'\n)}",
 							"type": "Expression"
 						},
 						"tableOption": "autoCreate",
@@ -40,7 +40,13 @@
 				"inputs": [
 					{
 						"referenceName": "GithubOD",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"FileName": {
+								"value": "@pipeline().parameters.ODFileName",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
@@ -53,7 +59,7 @@
 								"type": "Expression"
 							},
 							"TableName": {
-								"value": "@replace(pipeline().parameters.DPCFileName, '.csv', '')",
+								"value": "@replace(pipeline().parameters.ODFileName, '.csv', '')",
 								"type": "Expression"
 							}
 						}

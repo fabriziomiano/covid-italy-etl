@@ -74,11 +74,11 @@
 		"parameters": {
 			"DPCDirectory": {
 				"type": "string",
-				"defaultValue": "dati-regioni"
+				"defaultValue": "dati-andamento-nazionale"
 			},
 			"DPCFileName": {
 				"type": "string",
-				"defaultValue": "dpc-covid19-ita-regioni.csv"
+				"defaultValue": "dpc-covid19-ita-andamento-nazionale.csv"
 			},
 			"SchemaName": {
 				"type": "string",
@@ -86,7 +86,7 @@
 			}
 		},
 		"folder": {
-			"name": "General Purpose"
+			"name": "Copy Activities"
 		},
 		"annotations": []
 	}

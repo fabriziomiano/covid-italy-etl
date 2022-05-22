@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "covidash-df"
+		},
+		"AzureSqlDatabase_connectionString": {
+			"value": ""
+		},
+		"DPC GitHub_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/"
+		},
+		"Italia OD GitHub_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

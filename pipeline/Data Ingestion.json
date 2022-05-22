@@ -85,14 +85,14 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[UpdateAdminsData]"
+					"storedProcedureName": "[dbo].[GenerateFactTable]"
 				},
 				"linkedServiceName": {
 					"referenceName": "AzureSqlDatabase",
 					"type": "LinkedServiceReference",
 					"parameters": {
 						"SchemaName": "dbo",
-						"TableName": "somministrazioni-vaccini-latest"
+						"TableName": "Fact"
 					}
 				}
 			}

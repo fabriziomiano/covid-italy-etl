@@ -29,8 +29,8 @@
 				}
 			},
 			{
-				"name": "Wait ingestion",
-				"type": "Wait",
+				"name": "Transform administrations data",
+				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
 						"activity": "Ingest Pandemic Data",
@@ -45,17 +45,32 @@
 						]
 					}
 				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
 				"userProperties": [],
 				"typeProperties": {
-					"waitTimeInSeconds": 1
+					"storedProcedureName": "[dbo].[UpdateAdminsData]"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"SchemaName": "dbo",
+						"TableName": "somministrazioni-vaccini-latest"
+					}
 				}
 			},
 			{
-				"name": "Transform administrations data",
+				"name": "Generate Fact table",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "Wait ingestion",
+						"activity": "Transform administrations data",
 						"dependencyConditions": [
 							"Succeeded"
 						]

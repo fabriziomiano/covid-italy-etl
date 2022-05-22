@@ -35,52 +35,7 @@
 						"tableOption": "autoCreate",
 						"disableMetricsCollection": false
 					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "area",
-									"type": "String"
-								},
-								"sink": {
-									"name": "area",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "reg",
-									"type": "String"
-								},
-								"sink": {
-									"name": "nome_area",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "eta",
-									"type": "String"
-								},
-								"sink": {
-									"name": "fascia_anagrafica",
-									"type": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "totale_popolazione",
-									"type": "String"
-								},
-								"sink": {
-									"name": "totale_popolazione",
-									"type": "Int32"
-								}
-							}
-						]
-					}
+					"enableStaging": false
 				},
 				"inputs": [
 					{

@@ -33,12 +33,6 @@
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
-						"activity": "Ingest Pandemic Data",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
 						"activity": "Ingest Vax Data",
 						"dependencyConditions": [
 							"Succeeded"
@@ -71,6 +65,12 @@
 				"dependsOn": [
 					{
 						"activity": "Transform administrations data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Ingest Pandemic Data",
 						"dependencyConditions": [
 							"Succeeded"
 						]

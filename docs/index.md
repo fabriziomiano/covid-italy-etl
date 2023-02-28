@@ -1,8 +1,8 @@
 # covid-etl-df
 The scope of this project is the creation of insightful
 analytics on the Italian COVID pandemic and vaccine status.
-![pandemic.png](screenshots/pandemic.png)
-![vax.png](screenshots/vax.png)
+![pandemic.png](../screenshots/pandemic.png)
+![vax.png](../screenshots/vax.png)
 ## Description
 This repository hosts an Azure Data Factory (ADF) to perform the ingestion of the
 official COVID-19 pandemic- and vaccine-data on an Azure SQL Database.
@@ -79,7 +79,7 @@ Once the services have been created, run:
 
 At this stage all the components needed to create the data model are in place.
 The screenshot below shows the designed data model
-![data_model.png](screenshots/data_model.png)
+![data_model.png](../screenshots/data_model.png)
 
 and the relevant PowerBI report, whose screenshot is at the top of this README,
 can be found inside `SampleReport/COVID.pbix`
